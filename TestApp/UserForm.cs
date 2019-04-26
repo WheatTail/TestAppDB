@@ -27,6 +27,10 @@ namespace TestApp
             try
             {
                 userEmail = (string)getEmal.ExecuteScalar();
+                using (MemoryStream imageStream = new MemoryStream((byte[])getImage.ExecuteScalar()))
+                {
+                    UserPicture.Image = Image.FromStream(imageStream);
+                }
             }
             catch (SqlException SE)
             {
@@ -34,6 +38,7 @@ namespace TestApp
                 if (loginForm.sqlConnection.State != ConnectionState.Closed)
                 {
                     loginForm.sqlConnection.Close();
+                    return;
                 }
             }
             catch (Exception E)
@@ -42,12 +47,10 @@ namespace TestApp
                 if (loginForm.sqlConnection.State != ConnectionState.Closed)
                 {
                     loginForm.sqlConnection.Close();
+                    return;
                 }
             }
-            UserInfoLabel.Text = "Текущий пользователь: " + loginForm.CurrentUserLogin + "\nПочта: "+userEmail;
-            MemoryStream imageStream = new MemoryStream((byte[])getImage.ExecuteScalar());
-            UserPicture.Image = Image.FromStream(imageStream);
-
+            UserInfoLabel.Text = "Текущий пользователь: " + loginForm.CurrentUserLogin + "\nПочта: " + userEmail;
         }
 
         private void ExitButton_Click(object sender, EventArgs e)

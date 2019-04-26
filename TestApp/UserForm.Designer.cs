@@ -73,7 +73,7 @@
             this.Controls.Add(this.UserPicture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "UserForm";
-            this.Text = "UserForm";
+            this.Text = "Пользователь";
             this.Load += new System.EventHandler(this.UserForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();
             this.ResumeLayout(false);

@@ -79,7 +79,6 @@ namespace TestApp
                 checkUserLogin.Parameters.AddWithValue("Login", SqlDbType.NVarChar).Value = LoginText.Text;
                 if ((int)await checkUserLogin.ExecuteScalarAsync() == 1 || LoginText.Text=="")
                 {
-                    
                     MessageBox.Show("Логин уже занят или пуст", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }

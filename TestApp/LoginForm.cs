@@ -37,6 +37,7 @@ namespace TestApp
                 else
                 {
                     MessageBox.Show("Логин или пароль неверны", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    sqlConnection.Close();
                     return;
                 }                
             }
@@ -46,6 +47,7 @@ namespace TestApp
                 if (sqlConnection.State != ConnectionState.Closed)
                 {
                     sqlConnection.Close();
+                    return;
                 }
             }
             catch (Exception E)
@@ -54,6 +56,7 @@ namespace TestApp
                 if (sqlConnection.State != ConnectionState.Closed)
                 {
                     sqlConnection.Close();
+                    return;
                 }
             }
             UserForm userForm = new UserForm(this)
