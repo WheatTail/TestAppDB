@@ -19,20 +19,20 @@ namespace TestApp
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            this.PasswordText.PasswordChar = '*';
+            PasswordText.PasswordChar = '*';
         }
 
         private async void LoginButton_Click(object sender, EventArgs e)
         {
             SqlCommand loginAttempt = new SqlCommand("SELECT COUNT(*) FROM Users WHERE Login=@Login AND Password=@Password", sqlConnection);
-            loginAttempt.Parameters.AddWithValue("Login", SqlDbType.NVarChar).Value = this.LoginText.Text;
-            loginAttempt.Parameters.AddWithValue("Password", SqlDbType.NVarChar).Value = this.PasswordText.Text;
+            loginAttempt.Parameters.AddWithValue("Login", SqlDbType.NVarChar).Value = LoginText.Text;
+            loginAttempt.Parameters.AddWithValue("Password", SqlDbType.NVarChar).Value = PasswordText.Text;
             try
             {
                 await sqlConnection.OpenAsync();
                 if ((int)await loginAttempt.ExecuteScalarAsync() == 1)
                 {
-                    this.CurrentUserLogin = this.LoginText.Text;
+                    CurrentUserLogin = LoginText.Text;
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace TestApp
                 Owner = this
             };
             userForm.Show();
-            this.Hide();
+            Hide();
         }
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -84,7 +84,7 @@ namespace TestApp
                 Owner = this
             };
             registerForm.Show();
-            this.Hide();
+            Hide();
         }
     }
 }

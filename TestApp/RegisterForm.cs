@@ -16,16 +16,16 @@ namespace TestApp
         Regex emailCheck = new Regex("^[a-zA-Z0-9]{1,}[_]{0,1}[a-zA-Z0-9]{2,}[@][a-zA-Z0-9]{3,}[.][a-zA-Z]{2,}");
 
         public RegisterForm(LoginForm loginForm)
-        {          
+        {
             this.loginForm = loginForm as LoginForm;
-            this.sqlConnection = loginForm.sqlConnection;
+            sqlConnection = loginForm.sqlConnection;
             InitializeComponent();
         }
 
         private void RegisterForm_Load(object sender, EventArgs e)
         {
-            this.PasswordText.PasswordChar = '*';
-            this.RepeatPasswordText.PasswordChar = '*';
+            PasswordText.PasswordChar = '*';
+            RepeatPasswordText.PasswordChar = '*';
         }
 
         private void LoadPictureButton_Click(object sender, EventArgs e)
@@ -52,13 +52,13 @@ namespace TestApp
             SqlCommand checkUserLogin = new SqlCommand("SELECT COUNT(*) FROM Users WHERE Login=@Login", sqlConnection);
             SqlCommand registerUser = new SqlCommand("INSERT INTO Users VALUES(@Login, @Password, @Email, @Image)", sqlConnection);
 
-            if (this.PasswordText.Text != this.RepeatPasswordText.Text || (this.PasswordText.Text == "" && this.RepeatPasswordText.Text == ""))
+            if (PasswordText.Text != RepeatPasswordText.Text || (PasswordText.Text == "" && RepeatPasswordText.Text == ""))
             {
                 MessageBox.Show("Пароли не совпадают или пусты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (!emailCheck.IsMatch(this.EmailText.Text))
+            if (!emailCheck.IsMatch(EmailText.Text))
             {
                 MessageBox.Show("Почта не соответствует шаблону", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -76,29 +76,29 @@ namespace TestApp
                 {
                     sqlConnection.Open();
                 }
-                checkUserLogin.Parameters.AddWithValue("Login", SqlDbType.NVarChar).Value = this.LoginText.Text;
-                if ((int)await checkUserLogin.ExecuteScalarAsync() == 1 || this.LoginText.Text=="")
+                checkUserLogin.Parameters.AddWithValue("Login", SqlDbType.NVarChar).Value = LoginText.Text;
+                if ((int)await checkUserLogin.ExecuteScalarAsync() == 1 || LoginText.Text=="")
                 {
                     
                     MessageBox.Show("Логин уже занят или пуст", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
-                registerUser.Parameters.AddWithValue("Login", SqlDbType.NVarChar).Value = this.LoginText.Text;
-                registerUser.Parameters.AddWithValue("Password", SqlDbType.NVarChar).Value = this.PasswordText.Text;
-                registerUser.Parameters.AddWithValue("Email", SqlDbType.NVarChar).Value = this.EmailText.Text;
-                registerUser.Parameters.AddWithValue("Image", SqlDbType.VarBinary).Value = this.Image;
+                registerUser.Parameters.AddWithValue("Login", SqlDbType.NVarChar).Value = LoginText.Text;
+                registerUser.Parameters.AddWithValue("Password", SqlDbType.NVarChar).Value = PasswordText.Text;
+                registerUser.Parameters.AddWithValue("Email", SqlDbType.NVarChar).Value = EmailText.Text;
+                registerUser.Parameters.AddWithValue("Image", SqlDbType.VarBinary).Value = Image;
 
                 await registerUser.ExecuteNonQueryAsync();
 
-                this.loginForm.CurrentUserLogin = this.LoginText.Text;
+                loginForm.CurrentUserLogin = LoginText.Text;
 
-                UserForm userForm = new UserForm((LoginForm)this.Owner)
+                UserForm userForm = new UserForm((LoginForm)Owner)
                 {
-                    Owner = this.Owner
+                    Owner = Owner
                 };
                 userForm.Show();
-                this.Close();
+                Close();
             }
             catch (SqlException SE)
             {
@@ -114,23 +114,23 @@ namespace TestApp
 
         private void ShowPasswordCheck_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.ShowPasswordCheck.Checked)
+            if (ShowPasswordCheck.Checked)
             {
-                this.PasswordText.PasswordChar = '\0';
-                this.RepeatPasswordText.PasswordChar = '\0';
+                PasswordText.PasswordChar = '\0';
+                RepeatPasswordText.PasswordChar = '\0';
             }
             else
             {
-                this.PasswordText.PasswordChar = '*';
-                this.RepeatPasswordText.PasswordChar = '*';
+                PasswordText.PasswordChar = '*';
+                RepeatPasswordText.PasswordChar = '*';
             }
 
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.Owner.Show();
-            this.Close();
+            Owner.Show();
+            Close();
         }
 
     }

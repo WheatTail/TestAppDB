@@ -44,7 +44,7 @@ namespace TestApp
                     loginForm.sqlConnection.Close();
                 }
             }
-            this.UserInfoLabel.Text = "Текущий пользователь: " + loginForm.CurrentUserLogin + "\nПочта: "+userEmail;
+            UserInfoLabel.Text = "Текущий пользователь: " + loginForm.CurrentUserLogin + "\nПочта: "+userEmail;
             MemoryStream imageStream = new MemoryStream((byte[])getImage.ExecuteScalar());
             UserPicture.Image = Image.FromStream(imageStream);
 
